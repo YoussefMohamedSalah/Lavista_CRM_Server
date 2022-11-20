@@ -64,7 +64,12 @@ router.post(
             });
             await userData.save();
             // sent JWT token to clinet side
-            return res.json({ Authorization: `Bearer ${token}` });
+            return res.json({
+                access: token,
+                id: userData.id,
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+            });
         }
     }
 );
@@ -100,7 +105,13 @@ router.post("/login", async (req, res) => {
                     expiresIn: 43200,
                 }
             );
-            return res.json({ Authorization: `Bearer ${token}` });
+            res.header(token);
+            return res.json({
+                access: token,
+                id: userLoggin.id,
+                first_name: userLoggin.first_name,
+                last_name: userLoggin.last_name,
+            });
         }
     } else {
         return res.status(400).json({

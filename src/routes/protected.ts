@@ -65,7 +65,7 @@ router.get("/api/category_public", async (req, res) => {
 // );
 
 // we will protect this route
-router.get("/api/category_private_ww", checkAuth, async (req, res) => {
+router.get("/api/category_private", checkAuth, async (req, res) => {
     const category = await createQueryBuilder("category")
         .select("category")
         .from(Category, "category")

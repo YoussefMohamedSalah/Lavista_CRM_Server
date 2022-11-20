@@ -25,19 +25,16 @@ import { protectedRouter } from "./routes/protected";
 // constants
 dotenv.config();
 const app = express();
-const databasePort = process.env.DATABASE_PORT;
-const databaseName = process.env.DATABASE;
-const databasePassword = process.env.DATABASE_PASSWORD;
 
 const main = async () => {
     try {
         const connection = await createConnection({
             type: "postgres",
             host: "localhost",
-            port: databasePort,
+            port: 5432,
             username: "postgres",
-            password: databasePassword,
-            database: databaseName,
+            password: "YoussefMai##",
+            database: "lavistaDB",
             entities: [
                 // sections and category
                 Section,
