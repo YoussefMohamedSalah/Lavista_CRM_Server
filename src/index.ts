@@ -1,6 +1,7 @@
 import { createConnection } from "typeorm";
 import express from "express";
 import Cors from "cors";
+import dotenv from "dotenv";
 // entities
 import { Village } from "./entities/village";
 import { Section } from "./entities/Section";
@@ -22,20 +23,21 @@ import { authRouter } from "./routes/auth/auth";
 import { protectedRouter } from "./routes/protected";
 
 // constants
-const port = process.env.PORT;
-const database = process.env.DATABASE;
-
+dotenv.config();
 const app = express();
+const databasePort = process.env.DATABASE_PORT;
+const databaseName = process.env.DATABASE;
+const databasePassword = process.env.DATABASE_PASSWORD;
 
 const main = async () => {
     try {
         const connection = await createConnection({
             type: "postgres",
             host: "localhost",
-            port: 5432,
+            port: databasePort,
             username: "postgres",
-            password: "YoussefMai##",
-            database: "lavistaDB",
+            password: databasePassword,
+            database: databaseName,
             entities: [
                 // sections and category
                 Section,
@@ -65,7 +67,7 @@ const main = async () => {
         app.use(createWorkerRouter);
         app.use(createVillageRouter);
         app.use("/auth", authRouter);
-        app.use(protectedRouter)
+        app.use(protectedRouter);
 
         app.listen(8080, () => {
             console.log("Now running on port 8080");

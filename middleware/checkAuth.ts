@@ -1,4 +1,9 @@
 import JWT from "jsonwebtoken";
+import dotenv from "dotenv";
+
+// constants
+dotenv.config();
+const secretHash = process.env.SECRET_HASH;
 
 const checkAuth = async (req: any, res: any, next: any) => {
     // const header = req.header("Authorization");
@@ -16,10 +21,7 @@ const checkAuth = async (req: any, res: any, next: any) => {
     }
     // Authorization: `Bearer ${token}`
     try {
-        const user: any = await JWT.verify(
-            token,
-            "876asdn3oks@d,9ked(76rdndiousdlws%4fdp'wxsy"
-        );
+        const user: any = await JWT.verify(token, `${secretHash}`);
         req.user = user.loggin;
         next();
     } catch (error) {

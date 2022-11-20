@@ -1,10 +1,14 @@
 import express from "express";
+import dotenv from "dotenv";
 import { check, validationResult } from "express-validator";
 import { User } from "../../entities/User";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
 
+// constants
 const router = express.Router();
+dotenv.config();
+const secretHash = process.env.SECRET_HASH;
 
 router.post(
     "/signup",
@@ -43,7 +47,7 @@ router.post(
                 {
                     loggin,
                 },
-                "876asdn3oks@d,9ked(76rdndiousdlws%4fdp'wxsy",
+                `${secretHash}`,
                 {
                     // three hours
                     expiresIn: 43200,
@@ -90,7 +94,7 @@ router.post("/login", async (req, res) => {
                 {
                     loggin,
                 },
-                "876asdn3oks@d,9ked(76rdndiousdlws%4fdp'wxsy",
+                `${secretHash}`,
                 {
                     // three hours
                     expiresIn: 43200,
