@@ -9,7 +9,6 @@ router.post("/api/create_user", async (req, res) => {
         first_name,
         last_name,
         user_type,
-        privilege_type,
         manager_of,
     });
 

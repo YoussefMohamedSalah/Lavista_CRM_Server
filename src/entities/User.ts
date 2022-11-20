@@ -15,6 +15,12 @@ export enum PrivilegesTypes {
 
 @Entity("user")
 export class User extends Person {
+    @Column()
+    loggin: string;
+
+    @Column()
+    password: string;
+
     @Column({
         type: "enum",
         enum: UserTypes,
@@ -22,12 +28,8 @@ export class User extends Person {
     })
     user_type: string;
 
-    @Column()
-    manager_of: string;
-
     @Column({
-        type: "enum",
-        enum: PrivilegesTypes,
+        nullable: true,
     })
-    privilege_type: string;
+    manager_of: string;
 }

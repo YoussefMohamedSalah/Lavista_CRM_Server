@@ -17,6 +17,8 @@ import { createItemRouter } from "./routes/create_item";
 import { createOwnerRouter } from "./routes/create_owner";
 import { createUserRouter } from "./routes/create_user";
 import { createWorkerRouter } from "./routes/create_worker";
+// auth
+import { authRouter } from "./routes/auth/auth";
 
 // constants
 const port = process.env.PORT;
@@ -61,6 +63,7 @@ const main = async () => {
         app.use(createUserRouter);
         app.use(createWorkerRouter);
         app.use(createVillageRouter);
+        app.use("/auth", authRouter);
 
         app.listen(8080, () => {
             console.log("Now running on port 8080");
