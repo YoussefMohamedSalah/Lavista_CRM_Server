@@ -1,7 +1,9 @@
 import JWT from "jsonwebtoken";
 
 const checkAuth = async (req: any, res: any, next: any) => {
-    const token = req.header("Authorization");
+    // const header = req.header("Authorization");
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
 
     if (!token) {
         return res.status(400).json({
