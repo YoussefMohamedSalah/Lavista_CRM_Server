@@ -5,8 +5,10 @@ import {
     PrimaryGeneratedColumn,
     ManyToOne,
     JoinColumn,
+    OneToMany,
 } from "typeorm";
 import { Category } from "./Category";
+import { BrokenItem } from "./qr_code/broken_items_options";
 
 @Entity("item")
 export class Item extends BaseEntity {
@@ -41,4 +43,8 @@ export class Item extends BaseEntity {
         name: "category_Id",
     })
     category: Category;
+
+    // relasion with cild Broken Items Lis  t
+    @OneToMany(() => BrokenItem, (brokenItem) => brokenItem.item_id)
+    brokenItems: BrokenItem[];
 }

@@ -21,6 +21,10 @@ import { createWorkerRouter } from "./routes/create_worker";
 // auth
 import { authRouter } from "./routes/auth/auth";
 import { protectedRouter } from "./routes/protected";
+import { BrokenItem } from "./entities/qr_code/broken_items_options";
+import { createBrokenItemRouter } from "./routes/create_broken_item";
+import { MaintenanceTransaction } from "./entities/maintenance/Maintenance_transaction";
+import { createMaintenanceTransactionRouter } from "./routes/maintenance/Maintenance_Transaction";
 
 // constants
 dotenv.config();
@@ -40,12 +44,14 @@ const main = async () => {
                 Section,
                 Category,
                 Item,
+                BrokenItem,
                 // ----
                 Village,
                 // workers and Users
                 User,
                 Worker,
                 Owner,
+                MaintenanceTransaction,
             ],
             synchronize: true,
         });
@@ -58,11 +64,15 @@ const main = async () => {
         app.use(createSectionRouter);
         app.use(createCategoryRouter);
         app.use(createItemRouter);
+        app.use(createBrokenItemRouter);
         // ----
         app.use(createOwnerRouter);
         app.use(createUserRouter);
         app.use(createWorkerRouter);
         app.use(createVillageRouter);
+        // ------
+        app.use(createMaintenanceTransactionRouter)
+
         app.use("/auth", authRouter);
         app.use(protectedRouter);
 

@@ -1,5 +1,6 @@
 import { Person } from "./utils/Person";
-import { Entity, Column } from "typeorm";
+import { Entity, Column, OneToMany } from "typeorm";
+import { MaintenanceTransaction } from "./maintenance/Maintenance_transaction";
 
 @Entity("owner")
 export class Owner extends Person {
@@ -16,4 +17,11 @@ export class Owner extends Person {
 
     @Column()
     car_plate: string;
+
+    // one to many with Transactions
+    @OneToMany(
+        () => MaintenanceTransaction,
+        (maintenanceTransaction) => maintenanceTransaction.owner
+    )
+    maintenanceTransaction: MaintenanceTransaction[];
 }
