@@ -8,8 +8,7 @@ import { checkAuth } from "../../../middleware/checkAuth";
 
 const router = express.Router();
 
-
-// Make A new Transaction 
+// Make A new Transaction
 router.post(
     "/api/maintenance/:ownerId/transaction",
     checkAuth,
