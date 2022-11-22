@@ -37,7 +37,7 @@ const main = async () => {
             host: "localhost",
             port: 5432,
             username: "postgres",
-            password: "YoussefMai##",
+            password: "Youssef##",
             database: "lavistaDB",
             entities: [
                 // sections and category
