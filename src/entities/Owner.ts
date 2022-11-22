@@ -6,17 +6,19 @@ import { MaintenanceTransaction } from "./maintenance/Maintenance_transaction";
 export class Owner extends Person {
     @Column({
         nullable: false,
-        type: "simple-array",
     })
-    owner_of: string[];
+    owner_of: string;
 
     @Column({
         type: "numeric",
     })
-    Maintenance_fees: number;
+    maintenance_fees: number;
 
     @Column()
     car_plate: string;
+
+    @Column()
+    status: string;
 
     // one to many with Transactions
     @OneToMany(

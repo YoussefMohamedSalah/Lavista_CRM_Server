@@ -8,12 +8,17 @@ import {
     OneToMany,
 } from "typeorm";
 import { Item } from "./Item";
-import { Section } from "./Section";
+// import { Section } from "./Section";
 
 @Entity("category")
 export class Category extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column({
+        default: "Maintenance",
+    })
+    section: string;
 
     @Column({
         nullable: false,
@@ -24,13 +29,6 @@ export class Category extends BaseEntity {
         nullable: false,
     })
     shortcut: string;
-
-    // relasion with Parent Section
-    @ManyToOne(() => Section, (section) => section.categories)
-    @JoinColumn({
-        name: "section_Id",
-    })
-    section: Section;
 
     // relasion with cild Item
     @OneToMany(() => Item, (item) => item.category)

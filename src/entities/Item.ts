@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { Category } from "./Category";
 import { BrokenItem } from "./qr_code/broken_items_options";
+import { GenerateQrCode } from "./qr_code/generateQrCode";
 
 @Entity("item")
 export class Item extends BaseEntity {
@@ -44,7 +45,11 @@ export class Item extends BaseEntity {
     })
     category: Category;
 
-    // relasion with cild Broken Items Lis  t
+    // relasion with cild Broken Items List
     @OneToMany(() => BrokenItem, (brokenItem) => brokenItem.item_id)
     brokenItems: BrokenItem[];
+
+    // relasion with cild Qrcode List
+    @OneToMany(() => GenerateQrCode, (generateQrCode) => generateQrCode.item_id)
+    qrCodeList: GenerateQrCode[];
 }

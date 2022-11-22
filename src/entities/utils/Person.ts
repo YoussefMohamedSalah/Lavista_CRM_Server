@@ -11,7 +11,7 @@ import {
 @Entity("person")
 export class Person extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id: string;
 
     @Column({
         nullable: false,

@@ -4,7 +4,7 @@ import Cors from "cors";
 import dotenv from "dotenv";
 // entities
 import { Village } from "./entities/village";
-import { Section } from "./entities/Section";
+// import { Section } from "./entities/Section";
 import { Category } from "./entities/Category";
 import { Item } from "./entities/Item";
 import { User } from "./entities/User";
@@ -12,7 +12,7 @@ import { Worker } from "./entities/Worker";
 import { Owner } from "./entities/Owner";
 // routes
 import { createVillageRouter } from "./routes/create_village";
-import { createSectionRouter } from "./routes/create_section";
+// import { createSectionRouter } from "./routes/create_section";
 import { createCategoryRouter } from "./routes/create_category";
 import { createItemRouter } from "./routes/create_item";
 import { createOwnerRouter } from "./routes/create_owner";
@@ -24,7 +24,8 @@ import { protectedRouter } from "./routes/protected";
 import { BrokenItem } from "./entities/qr_code/broken_items_options";
 import { createBrokenItemRouter } from "./routes/create_broken_item";
 import { MaintenanceTransaction } from "./entities/maintenance/Maintenance_transaction";
-import { createMaintenanceTransactionRouter } from "./routes/maintenance/Maintenance_Transaction";
+import { createMaintenanceTransactionRouter } from "./routes/maintenance/create_Maintenance_Transaction";
+import { GenerateQrCode } from "./entities/qr_code/generateQrCode";
 
 // constants
 dotenv.config();
@@ -41,10 +42,11 @@ const main = async () => {
             database: "lavistaDB",
             entities: [
                 // sections and category
-                Section,
+                // Section,
                 Category,
                 Item,
                 BrokenItem,
+                GenerateQrCode,
                 // ----
                 Village,
                 // workers and Users
@@ -61,7 +63,7 @@ const main = async () => {
         app.use(express.json());
         app.use(Cors());
         // ----
-        app.use(createSectionRouter);
+        // app.use(createSectionRouter);
         app.use(createCategoryRouter);
         app.use(createItemRouter);
         app.use(createBrokenItemRouter);
@@ -71,7 +73,7 @@ const main = async () => {
         app.use(createWorkerRouter);
         app.use(createVillageRouter);
         // ------
-        app.use(createMaintenanceTransactionRouter)
+        app.use(createMaintenanceTransactionRouter);
 
         app.use("/auth", authRouter);
         app.use(protectedRouter);

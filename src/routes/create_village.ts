@@ -2,6 +2,7 @@ import express from "express";
 import { Village } from "../entities/village";
 const router = express.Router();
 
+// Adding New Village Info
 router.post("/api/create_village", async (req, res) => {
     const { village_name } = req.body;
     const village = Village.create({
@@ -12,7 +13,7 @@ router.post("/api/create_village", async (req, res) => {
     return res.json(village);
 });
 
-// Get Request
+// Get All Villages Info
 router.get("/api/get_villages", async (req, res) => {
     const village = await Village.find();
     return res.json(village);

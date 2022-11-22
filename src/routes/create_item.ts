@@ -1,14 +1,14 @@
 import express from "express";
 import { Item } from "../entities/Item";
+import { createQueryBuilder } from "typeorm";
 const router = express.Router();
 
 router.post("/api/item", async (req, res) => {
-    const { title, label, condition, needs, category_Id } = req.body;
+    const { title, label, condition, category_Id } = req.body;
     const item = Item.create({
         title,
         label,
         condition,
-        needs,
         category: category_Id,
     });
 
@@ -16,9 +16,20 @@ router.post("/api/item", async (req, res) => {
     return res.json(item);
 });
 
-// Get Request
+// Get All Items
 router.get("/api/item", async (req, res) => {
     const item = await Item.find();
+    return res.json(item);
+});
+
+// Get All Items With Qr Code List
+router.get("/api/all_items/qrcode_list", async (req, res) => {
+    const item = await createQueryBuilder("item")
+        .select("item")
+        .from(Item, "item")
+        .leftJoinAndSelect("item.qrCodeList", "qrCodeList")
+        .getMany();
+
     return res.json(item);
 });
 

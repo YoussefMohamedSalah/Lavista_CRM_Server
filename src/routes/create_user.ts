@@ -2,6 +2,7 @@ import express from "express";
 import { User } from "../entities/User";
 const router = express.Router();
 
+// Add New User Or Admin
 router.post("/api/create_user", async (req, res) => {
     const { first_name, last_name, user_type, privilege_type, manager_of } =
         req.body;
@@ -16,7 +17,7 @@ router.post("/api/create_user", async (req, res) => {
     return res.json(user);
 });
 
-// Get Request
+// Get All Users Data
 router.get("/api/get_users", async (req, res) => {
     const user = await User.find();
     return res.json(user);

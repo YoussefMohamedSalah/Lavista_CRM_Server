@@ -2,6 +2,7 @@ import express from "express";
 import { Worker } from "../entities/Worker";
 const router = express.Router();
 
+// Add New Worker To Village
 router.post("/api/create_worker", async (req, res) => {
     const {
         first_name,
@@ -28,7 +29,7 @@ router.post("/api/create_worker", async (req, res) => {
     return res.json(worker);
 });
 
-// Get Request
+// Get All Workers Data
 router.get("/api/get_workers", async (req, res) => {
     const worker = await Worker.find();
     return res.json(worker);
