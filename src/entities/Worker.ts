@@ -15,9 +15,6 @@ export class Worker extends Person {
     working_section: string;
 
     @Column()
-    salary: number;
-
-    @Column()
     start_working_data: string;
 
     @Column()
