@@ -19,4 +19,5 @@ router.get("/api/get_villages", async (req, res) => {
     return res.json(village);
 });
 
+
 export { router as createVillageRouter };

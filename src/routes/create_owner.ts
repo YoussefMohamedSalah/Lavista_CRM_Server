@@ -1,6 +1,8 @@
 import express from "express";
 import { checkAuth } from "../../middleware/checkAuth";
 import { Owner } from "../entities/Owner";
+import { createQueryBuilder } from "typeorm";
+import { Village } from "../entities/village";
 const router = express.Router();
 
 // Create New Owner
@@ -48,7 +50,6 @@ router.post("/api/edit_owner/:owner_Id", checkAuth, async (req, res) => {
         phone_number,
     } = req.body;
 
-
     const owner = await Owner.findOneBy({
         id: req.params.owner_Id,
     });
@@ -59,28 +60,27 @@ router.post("/api/edit_owner/:owner_Id", checkAuth, async (req, res) => {
         });
     }
 
-    if(first_name !== ''){
-        owner.first_name = first_name
+    if (first_name !== "") {
+        owner.first_name = first_name;
     }
-    if(last_name !== ''){
-        owner.last_name = last_name
+    if (last_name !== "") {
+        owner.last_name = last_name;
     }
-    if(owner_of !== ''){
-        owner.owner_of = owner_of
+    if (owner_of !== "") {
+        owner.owner_of = owner_of;
     }
-    if(maintenance_fees !== ''){
-        owner.maintenance_fees = maintenance_fees
+    if (maintenance_fees !== "") {
+        owner.maintenance_fees = maintenance_fees;
     }
-    if(car_plate !== ''){
-        owner.car_plate = car_plate
+    if (car_plate !== "") {
+        owner.car_plate = car_plate;
     }
-    if(phone_number !== ''){
-        owner.phone_number = phone_number
+    if (phone_number !== "") {
+        owner.phone_number = phone_number;
     }
-
 
     await owner.save();
-    console.log(owner)
+    console.log(owner);
     return res.json(owner);
 });
 
@@ -98,6 +98,20 @@ router.get("/api/get_owner/:owner_Id", checkAuth, async (req, res) => {
         id: req.params.owner_Id,
     });
     return res.json(owner);
+});
+
+// Get All Owners Data To One Village
+router.get("/api/:village_Id/get_owners", checkAuth, async (req, res) => {
+    const { village_Id } = req.params;
+
+    const village = await createQueryBuilder("village")
+        .select("village")
+        .from(Village, "village")
+        .where("village.id = :village_Id", { village_Id })
+        .leftJoinAndSelect("village.owners", "owners")
+        .getMany();
+
+    return res.json(village);
 });
 
 export { router as createOwnerRouter };

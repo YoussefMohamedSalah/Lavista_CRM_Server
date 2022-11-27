@@ -2,11 +2,12 @@ import express from "express";
 import { BrokenItem } from "../entities/qr_code/broken_items_options";
 import { createQueryBuilder } from "typeorm";
 import { Item } from "../entities/Item";
+import { checkAuth } from "../../middleware/checkAuth";
 
 const router = express.Router();
 
 // Post Request
-router.post("/api/broken_item", async (req, res) => {
+router.post("/api/broken_item", checkAuth, async (req, res) => {
     const { title, label, item_id } = req.body;
     const brokenItem = await BrokenItem.create({
         title,
@@ -19,7 +20,7 @@ router.post("/api/broken_item", async (req, res) => {
 });
 
 // Get Request
-router.get("/api/broken_item", async (req, res) => {
+router.get("/api/broken_item", checkAuth, async (req, res) => {
     const brokenItem = await createQueryBuilder("broken_items")
         .select("broken_items")
         .from(BrokenItem, "broken_items")

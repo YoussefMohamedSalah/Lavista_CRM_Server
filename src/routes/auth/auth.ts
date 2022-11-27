@@ -22,8 +22,14 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { first_name, last_name, loggin, password, manager_of } =
-            req.body;
+        const {
+            first_name,
+            last_name,
+            loggin,
+            password,
+            manager_of,
+            user_type,
+        } = req.body;
 
         const userLoggin = await User.createQueryBuilder()
             .select("user")
@@ -61,6 +67,7 @@ router.post(
                 loggin,
                 password: hashedPassword,
                 manager_of,
+                user_type,
             });
             await userData.save();
             // sent JWT token to clinet side
@@ -74,6 +81,7 @@ router.post(
     }
 );
 
+// access token to be saved in locl storage ,,,, three Hours
 router.post("/login", async (req, res) => {
     const { loggin, password } = req.body;
 
@@ -82,6 +90,12 @@ router.post("/login", async (req, res) => {
         .from(User, "user")
         .where("user.loggin = :loggin", { loggin: loggin })
         .getOne();
+
+    // const userType = await User.createQueryBuilder()
+    // .select("user")
+    // .from(User, "user")
+    // .where("user.user_type = :user_type", { user_type: user_type })
+    // .getOne();
 
     if (userLoggin) {
         const isMatch = await bcrypt.compare(password, userLoggin.password);
@@ -111,6 +125,8 @@ router.post("/login", async (req, res) => {
                 id: userLoggin.id,
                 first_name: userLoggin.first_name,
                 last_name: userLoggin.last_name,
+                user_type: userLoggin.user_type,
+                manager_of: userLoggin.manager_of,
             });
         }
     } else {

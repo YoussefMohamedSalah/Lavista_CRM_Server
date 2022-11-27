@@ -1,6 +1,7 @@
 import { Person } from "./utils/Person";
-import { Entity, Column, OneToMany } from "typeorm";
+import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 import { MaintenanceTransaction } from "./maintenance/Maintenance_transaction";
+import { Village } from "./village";
 
 @Entity("owner")
 export class Owner extends Person {
@@ -19,6 +20,13 @@ export class Owner extends Person {
 
     @Column()
     status: string;
+
+    // relasion with Parent Village
+    @ManyToOne(() => Village, (village) => village.owners)
+    @JoinColumn({
+        name: "village_Id",
+    })
+    village: Village;
 
     // one to many with Transactions
     @OneToMany(

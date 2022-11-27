@@ -2,6 +2,7 @@ import express from "express";
 import { Category } from "../entities/Category";
 import { createQueryBuilder } from "typeorm";
 import { Item } from "../entities/Item";
+import { checkAuth } from "../../middleware/checkAuth";
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.post("/api/category", async (req, res) => {
 });
 
 // Get All Ctegories with items
-router.get("/api/category/items", async (req, res) => {
+router.get("/api/category/items", checkAuth, async (req, res) => {
     const category = await createQueryBuilder("category")
         .select("category")
         .from(Category, "category")
@@ -30,7 +31,7 @@ router.get("/api/category/items", async (req, res) => {
 });
 
 // Get single category with items
-router.get("/api/:category_title/items", async (req, res) => {
+router.get("/api/:category_title/items", checkAuth, async (req, res) => {
     const { category_title } = req.params;
 
     const category = await createQueryBuilder("category")

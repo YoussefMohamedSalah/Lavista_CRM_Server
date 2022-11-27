@@ -1,16 +1,28 @@
 import express from "express";
-import { User } from "../entities/User";
+import { Village } from "../entities/village";
+import {
+    Brackets,
+    createQueryBuilder,
+    getRepository,
+    Repository,
+} from "typeorm";
+import { checkAuth } from "../../middleware/checkAuth";
+import { User, UserTypes } from "../entities/User";
+import { Owner } from "../entities/Owner";
+import { MaintenanceTransaction } from "../entities/maintenance/Maintenance_transaction";
+import { format } from "path";
 const router = express.Router();
 
 // Add New User Or Admin
-router.post("/api/create_user", async (req, res) => {
-    const { first_name, last_name, user_type, privilege_type, manager_of } =
+router.post("/api/create_user",checkAuth, async (req, res) => {
+    const { first_name, last_name, user_type, manager_of, village_name } =
         req.body;
     const user = User.create({
         first_name,
         last_name,
         user_type,
         manager_of,
+        village_name,
     });
 
     await user.save();
@@ -21,6 +33,32 @@ router.post("/api/create_user", async (req, res) => {
 router.get("/api/get_users", async (req, res) => {
     const user = await User.find();
     return res.json(user);
+});
+
+// Get One user Data
+router.get("/api/get_user/:user_Id", checkAuth, async (req, res) => {
+    const { user_Id } = req.params;
+
+    const user = await User.findOneBy({
+        id: req.params.user_Id,
+    });
+    console.log(user);
+    return res.json(user);
+});
+
+
+// Get All Users Data To One Village
+router.get("/api/:village_Id/get_users", checkAuth, async (req, res) => {
+    const { village_Id } = req.params;
+
+    const village = await createQueryBuilder("village")
+        .select("village")
+        .from(Village, "village")
+        .where("village.id = :village_Id", { village_Id })
+        .leftJoinAndSelect("village.users", "users")
+        .getMany();
+
+    return res.json(village);
 });
 
 export { router as createUserRouter };

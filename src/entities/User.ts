@@ -1,16 +1,15 @@
 import { Person } from "./utils/Person";
-import { Entity, Column } from "typeorm";
+import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Village } from "./village";
 
 export enum UserTypes {
+    user = "user",
     superManager = "super_manager",
     villageManager = "village_manager",
-    user = "user",
-}
-
-export enum PrivilegesTypes {
-    qrCodeManager = "super_manager",
-    financeManager = "village_manager",
-    all = "all",
+    qrCodeManager = "qr_code_manager",
+    ownersManager = "owners_manager",
+    workersManager = "workers_manager",
+    gateManager = "gate_manager",
 }
 
 @Entity("user")
@@ -32,4 +31,16 @@ export class User extends Person {
         nullable: true,
     })
     manager_of: string;
+
+    @Column({
+        default: "la vista",
+    })
+    village_name: string;
+
+    // relasion with Parent Village
+    @ManyToOne(() => Village, (village) => village.users)
+    @JoinColumn({
+        name: "village_Id",
+    })
+    village: Village;
 }
