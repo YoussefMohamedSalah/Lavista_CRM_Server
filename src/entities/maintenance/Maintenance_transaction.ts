@@ -31,7 +31,9 @@ export class MaintenanceTransaction extends BaseEntity {
     amount: number;
 
     // one to many with Owner
-    @ManyToOne(() => Owner, (owner) => owner.maintenanceTransaction)
+    @ManyToOne(() => Owner, (owner) => owner.maintenanceTransaction, {
+        cascade: true,
+    })
     @JoinColumn({
         name: "owner_id",
     })

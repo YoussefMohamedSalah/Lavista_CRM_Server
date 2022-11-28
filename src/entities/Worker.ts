@@ -18,7 +18,9 @@ export class Worker extends Person {
     @Column()
     start_working_data: string;
 
-    @Column()
+    @Column({
+        nullable: true,
+    })
     finish_working_data: string;
 
     @Column({
@@ -28,12 +30,24 @@ export class Worker extends Person {
     now_working: boolean;
 
     @Column({
-        default: "",
+        type: "boolean",
+        nullable: true,
+        default: false,
+    })
+    has_permission: boolean;
+
+    @Column({
+        nullable: true,
+    })
+    permission_type: string;
+
+    @Column({
+        nullable: true,
     })
     reason_to_leave: string;
 
     // relasion with Parent Village
-    @ManyToOne(() => Village, (village) => village.workers)
+    @ManyToOne(() => Village, (village) => village.workers, { cascade: true })
     @JoinColumn({
         name: "village_Id",
     })

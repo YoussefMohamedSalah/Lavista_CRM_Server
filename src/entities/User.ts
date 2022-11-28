@@ -38,7 +38,7 @@ export class User extends Person {
     village_name: string;
 
     // relasion with Parent Village
-    @ManyToOne(() => Village, (village) => village.users)
+    @ManyToOne(() => Village, (village) => village.users, {cascade : true})
     @JoinColumn({
         name: "village_Id",
     })

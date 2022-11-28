@@ -25,7 +25,7 @@ export class BrokenItem extends BaseEntity {
     label: string;
 
     // relasion with Parent Item
-    @ManyToOne(() => Item, (item) => item.brokenItems)
+    @ManyToOne(() => Item, (item) => item.brokenItems, {cascade : true})
     @JoinColumn({
         name: "item_id",
     })

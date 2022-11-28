@@ -6,7 +6,7 @@ import { Worker } from "../entities/Worker";
 const router = express.Router();
 
 // Add New Worker To Village
-router.post("/api/create_worker", checkAuth, async (req, res) => {
+router.post("/api/create_worker", async (req, res) => {
     const {
         first_name,
         last_name,
@@ -25,6 +25,11 @@ router.post("/api/create_worker", checkAuth, async (req, res) => {
         finish_working_data,
         reason_to_leave,
     });
+    // const worker_village = await createQueryBuilder("village")
+    //     .select("village")
+    //     .from(Village, "village")
+    //     .where("village.id = :village_Id", { village_Id: "village_Id" })
+    //     .getOne();
 
     await worker.save();
     return res.json(worker);
@@ -78,7 +83,7 @@ router.post("/api/edit_worker/:worker_Id", checkAuth, async (req, res) => {
     if (reason_to_leave !== "") {
         worker.reason_to_leave = reason_to_leave;
     }
-
+    
     await worker.save();
     console.log(worker);
     return res.json(worker);
@@ -90,8 +95,8 @@ router.get("/api/get_workers", checkAuth, async (req, res) => {
     return res.json(worker);
 });
 
-// Get All Users Data To One Village
-router.get("/api/:village_Id/get_workers", checkAuth, async (req, res) => {
+// Get All Workers Data To One Village
+router.get("/api/:village_Id/get_workers", async (req, res) => {
     const { village_Id } = req.params;
 
     const village = await createQueryBuilder("village")
@@ -99,7 +104,7 @@ router.get("/api/:village_Id/get_workers", checkAuth, async (req, res) => {
         .from(Village, "village")
         .where("village.id = :village_Id", { village_Id })
         .leftJoinAndSelect("village.workers", "workers")
-        .getMany();
+        .getOne();
 
     return res.json(village);
 });

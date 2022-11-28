@@ -23,7 +23,7 @@ export class GenerateQrCode extends BaseEntity {
     image: string;
 
     // relasion with Parent Section
-    @ManyToOne(() => Item, (item) => item.qrCodeList)
+    @ManyToOne(() => Item, (item) => item.qrCodeList, {cascade : true})
     @JoinColumn({
         name: "item_id",
     })

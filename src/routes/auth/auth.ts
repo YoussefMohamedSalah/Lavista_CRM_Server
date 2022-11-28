@@ -4,6 +4,7 @@ import { check, validationResult } from "express-validator";
 import { User } from "../../entities/User";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
+import { Worker } from "../../entities/Worker";
 
 // constants
 const router = express.Router();
@@ -23,12 +24,14 @@ router.post(
         }
 
         const {
+            id,
             first_name,
             last_name,
             loggin,
             password,
             manager_of,
-            user_type,
+            has_permission,
+            permission_type,
         } = req.body;
 
         const userLoggin = await User.createQueryBuilder()
@@ -62,14 +65,29 @@ router.post(
             res.header(token);
             // adding data to database
             const userData = User.create({
+                id,
                 first_name,
                 last_name,
                 loggin,
                 password: hashedPassword,
                 manager_of,
-                user_type,
+                user_type: permission_type,
             });
             await userData.save();
+
+            const workerData = await Worker.createQueryBuilder()
+                .select("worker")
+                .from(Worker, "worker")
+                .where("worker.id = :id", { id })
+                .getOne();
+
+            if (workerData && permission_type && has_permission) {
+                workerData.permission_type = permission_type;
+                workerData.has_permission = true;
+            }
+
+            await workerData?.save();
+
             // sent JWT token to clinet side
             return res.json({
                 access: token,

@@ -23,14 +23,14 @@ export class Category extends BaseEntity {
     })
     shortcut: string;
 
-//     // relasion with Parent Section
-//     @ManyToOne(() => Section, (section) => section.categories)
-//     @JoinColumn({
-//         name: "section_Id",
-//     })
-//     section: Section;
+    //     // relasion with Parent Section
+    //     @ManyToOne(() => Section, (section) => section.categories)
+    //     @JoinColumn({
+    //         name: "section_Id",
+    //     })
+    //     section: Section;
 
-//     // relasion with cild Item
-//     @OneToMany(() => Item, (item) => item.category)
-//     items: Item[];
+    //     // relasion with cild Item
+    //     @OneToMany(() => Item, (item) => item.category)
+    //     items: Item[];
 }
