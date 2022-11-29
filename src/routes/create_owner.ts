@@ -17,7 +17,7 @@ router.post('/api/:village_Id/create_owner', checkAuth, async (req, res) => {
   } = req.body;
 
   const { village_Id } = req.params;
-  const village = await Village.findOne({ where: { id: Number(village_Id) } });
+  const village = await Village.findOne({ where: { id: village_Id } });
   if (!village)
     return res
       .status(404)
@@ -95,7 +95,7 @@ router.post('/api/edit_owner/:owner_Id', checkAuth, async (req, res) => {
 // Get All Owners Data With village_Id
 router.get('/api/:village_Id/get_owners', async (req, res) => {
   const { village_Id } = req.params;
-  const village = await Village.findOne({ where: { id: Number(village_Id) } });
+  const village = await Village.findOne({ where: { id: village_Id } });
   if (!village)
     return res
       .status(404)

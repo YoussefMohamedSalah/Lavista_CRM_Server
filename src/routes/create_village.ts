@@ -4,7 +4,7 @@ import { Village } from '../entities/village';
 const router = express.Router();
 
 // Adding New Village Info
-router.post('/api/create_village', checkAuth, async (req, res) => {
+router.post('/api/create_village', async (req, res) => {
   const { village_name } = req.body;
 
   const village = await Village.findOne({ where: { village_name } });

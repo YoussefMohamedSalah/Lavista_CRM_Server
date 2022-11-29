@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/api/:village_Id/create_worker', async (req, res) => {
   const { village_Id } = req.params;
 
-  const village = await Village.findOne({ where: { id: Number(village_Id) } });
+  const village = await Village.findOne({ where: { id: village_Id } });
   if (!village)
     return res
       .status(404)
@@ -108,14 +108,44 @@ router.get('/api/get_workers', checkAuth, async (req, res) => {
 router.get('/api/:village_Id/get_workers', async (req, res) => {
   const { village_Id } = req.params;
 
-  const village = await createQueryBuilder('village')
-    .select('village')
-    .from(Village, 'village')
-    .where('village.id = :village_Id', { village_Id })
-    .leftJoinAndSelect('village.workers', 'workers')
-    .getOne();
+  const villageWorkers = await Village.findOne({
+    where: { id: village_Id },
+    relations: {
+      workers: true
+    }
+  });
 
-  return res.json(village);
+  if (!villageWorkers)
+    return res
+      .status(404)
+      .json({ message: 'Village Not Found, Please Enter A Valid Village' });
+  return res.json(villageWorkers);
+});
+
+// Get All Workers To One Vaillage That Has A Permission === true
+router.get('/api/:village_Id/get_workers', async (req, res) => {
+  const { village_Id } = req.params;
+
+  const villageWorkers = await Village.findOne({
+    where: { id: village_Id },
+    relations: {
+      workers: true
+    }
+  });
+
+  if (!villageWorkers)
+    return res
+      .status(404)
+      .json({ message: 'Village Not Found, Please Enter A Valid Village' });
+
+  const filterWorkers = () => {
+    const workerArray = villageWorkers.workers.filter(function (worker) {
+      return (worker.has_permission = true);
+    });
+    return workerArray;
+  };
+
+  return res.json(filterWorkers());
 });
 
 export { router as createWorkerRouter };

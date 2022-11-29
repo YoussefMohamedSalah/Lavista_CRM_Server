@@ -15,11 +15,10 @@ const router = express.Router();
 
 // Add New User Or Admin
 router.post('/api/:village_Id/create_user', async (req, res) => {
-  const { first_name, last_name, user_type, manager_of } =
-    req.body;
+  const { first_name, last_name, user_type, manager_of } = req.body;
 
   const { village_Id } = req.params;
-  const village = await Village.findOne({ where: { id: Number(village_Id) } });
+  const village = await Village.findOne({ where: { id: village_Id } });
   if (!village)
     return res
       .status(404)

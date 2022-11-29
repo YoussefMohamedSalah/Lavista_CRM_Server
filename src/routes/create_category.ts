@@ -8,11 +8,11 @@ import { Village } from '../entities/village';
 const router = express.Router();
 
 // Post Request
-router.post('/api/:village_Id/category',checkAuth, async (req, res) => {
+router.post('/api/:village_Id/category', checkAuth, async (req, res) => {
   const { title, shortcut, section } = req.body;
 
   const { village_Id } = req.params;
-  const village = await Village.findOne({ where: { id: Number(village_Id) } });
+  const village = await Village.findOne({ where: { id: village_Id } });
   if (!village)
     return res
       .status(404)
@@ -38,7 +38,6 @@ router.post('/api/:village_Id/category',checkAuth, async (req, res) => {
 //       .status(404)
 //       .json({ message: 'Village Not Found, Please Enter A Valid Village' });
 
-  
 //     const category = await createQueryBuilder('category')
 //     .select('category')
 //     .from(Category, 'category')
