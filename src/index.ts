@@ -26,6 +26,7 @@ import { createBrokenItemRouter } from "./routes/create_broken_item";
 import { MaintenanceTransaction } from "./entities/maintenance/Maintenance_transaction";
 import { createMaintenanceTransactionRouter } from "./routes/maintenance/create_Maintenance_Transaction";
 import { GenerateQrCode } from "./entities/qr_code/generateQrCode";
+import { createImageUploadRouter } from "./routes/uploadFile/uploadImage";
 
 // constants
 dotenv.config();
@@ -72,6 +73,7 @@ const main = async () => {
         app.use(createUserRouter);
         app.use(createWorkerRouter);
         app.use(createVillageRouter);
+        app.use(createImageUploadRouter);
         // ------
         app.use(createMaintenanceTransactionRouter);
 

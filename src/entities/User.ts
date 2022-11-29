@@ -37,8 +37,14 @@ export class User extends Person {
     })
     village_name: string;
 
+    @Column({
+        default: "",
+        nullable: true,
+    })
+    profile_image: string;
+
     // relasion with Parent Village
-    @ManyToOne(() => Village, (village) => village.users, {cascade : true})
+    @ManyToOne(() => Village, (village) => village.users, { cascade: true })
     @JoinColumn({
         name: "village_Id",
     })

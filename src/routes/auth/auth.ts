@@ -73,6 +73,7 @@ router.post(
                 manager_of,
                 user_type: permission_type,
             });
+            console.log(userData)
             await userData.save();
 
             const workerData = await Worker.createQueryBuilder()
