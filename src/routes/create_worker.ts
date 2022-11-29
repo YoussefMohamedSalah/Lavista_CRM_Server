@@ -123,7 +123,7 @@ router.get('/api/:village_Id/get_workers', async (req, res) => {
 });
 
 // Get All Workers To One Vaillage That Has A Permission === true
-router.get('/api/:village_Id/get_workers', async (req, res) => {
+router.get('/api/:village_Id/get_workers_with_permission', async (req, res) => {
   const { village_Id } = req.params;
 
   const villageWorkers = await Village.findOne({
