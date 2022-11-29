@@ -27,7 +27,6 @@ import { MaintenanceTransaction } from './entities/maintenance/Maintenance_trans
 import { createMaintenanceTransactionRouter } from './routes/maintenance/create_Maintenance_Transaction';
 import { GenerateQrCode } from './entities/qr_code/generateQrCode';
 import { createImageUploadRouter } from './routes/uploadFile/uploadImage';
-// some change
 // constants
 dotenv.config();
 const app = express();

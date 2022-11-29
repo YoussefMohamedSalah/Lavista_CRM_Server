@@ -33,11 +33,6 @@ export class User extends Person {
     manager_of: string;
 
     @Column({
-        default: "la vista",
-    })
-    village_name: string;
-
-    @Column({
         default: "",
         nullable: true,
     })

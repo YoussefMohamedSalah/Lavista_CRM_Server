@@ -1,37 +1,37 @@
-import { Person } from "./utils/Person";
-import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from "typeorm";
-import { MaintenanceTransaction } from "./maintenance/Maintenance_transaction";
-import { Village } from "./village";
+import { Person } from './utils/Person';
+import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { MaintenanceTransaction } from './maintenance/Maintenance_transaction';
+import { Village } from './village';
 
-@Entity("owner")
+@Entity('owner')
 export class Owner extends Person {
-    @Column({
-        nullable: false,
-    })
-    owner_of: string;
+  @Column({
+    nullable: false
+  })
+  owner_of: string;
 
-    @Column({
-        type: "numeric",
-    })
-    maintenance_fees: number;
+  @Column({
+    type: 'numeric'
+  })
+  maintenance_fees: number;
 
-    @Column()
-    car_plate: string;
+  @Column()
+  car_plate: string;
 
-    @Column()
-    status: string;
+  @Column()
+  status: string;
 
-    // relasion with Parent Village
-    @ManyToOne(() => Village, (village) => village.owners, {cascade : true})
-    @JoinColumn({
-        name: "village_Id",
-    })
-    village: Village;
+  // relation with Parent Village
+  @ManyToOne(() => Village, (village) => village.owners, { cascade: true })
+  @JoinColumn({
+    name: 'village_Id'
+  })
+  village: Village;
 
-    // one to many with Transactions
-    @OneToMany(
-        () => MaintenanceTransaction,
-        (maintenanceTransaction) => maintenanceTransaction.owner
-    )
-    maintenanceTransaction: MaintenanceTransaction[];
+  // one to many with Transactions
+  @OneToMany(
+    () => MaintenanceTransaction,
+    (maintenanceTransaction) => maintenanceTransaction.owner
+  )
+  maintenanceTransaction: MaintenanceTransaction[];
 }
