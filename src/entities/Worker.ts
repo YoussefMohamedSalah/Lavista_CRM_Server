@@ -1,55 +1,64 @@
-import { Person } from "./utils/Person";
-import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
-import { Village } from "./village";
+import { Person } from './utils/Person';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+import { Village } from './village';
 
-@Entity("worker")
+@Entity('worker')
 export class Worker extends Person {
-    @Column({
-        nullable: false,
-        length: 14,
-    })
-    id_number: string;
+  @Column({
+    nullable: false,
+    length: 14
+  })
+  id_number: string;
 
-    @Column({
-        nullable: false,
-    })
-    working_section: string;
+  @PrimaryGeneratedColumn()
+  index: number;
 
-    @Column()
-    start_working_data: string;
+  @Column({
+    nullable: false
+  })
+  working_section: string;
 
-    @Column({
-        nullable: true,
-    })
-    finish_working_data: string;
+  @Column()
+  start_working_data: string;
 
-    @Column({
-        type: "boolean",
-        default: true,
-    })
-    now_working: boolean;
+  @Column({
+    nullable: true
+  })
+  finish_working_data: string;
 
-    @Column({
-        type: "boolean",
-        nullable: true,
-        default: false,
-    })
-    has_permission: boolean;
+  @Column({
+    type: 'boolean',
+    default: true
+  })
+  now_working: boolean;
 
-    @Column({
-        nullable: true,
-    })
-    permission_type: string;
+  @Column({
+    type: 'boolean',
+    nullable: true,
+    default: false
+  })
+  has_permission: boolean;
 
-    @Column({
-        nullable: true,
-    })
-    reason_to_leave: string;
+  @Column({
+    nullable: true
+  })
+  permission_type: string;
 
-    // relasion with Parent Village
-    @ManyToOne(() => Village, (village) => village.workers, { cascade: true })
-    @JoinColumn({
-        name: "village_Id",
-    })
-    village: Village;
+  @Column({
+    nullable: true
+  })
+  reason_to_leave: string;
+
+  // relasion with Parent Village
+  @ManyToOne(() => Village, (village) => village.workers, { cascade: true })
+  @JoinColumn({
+    name: 'village_Id'
+  })
+  village: Village;
 }

@@ -44,6 +44,20 @@ router.post('/api/:village_Id/create_worker', async (req, res) => {
   return res.json(worker);
 });
 
+// Get All Workers Data To One Village
+router.get('/api/get_worker/:worker_Id', async (req, res) => {
+  const worker = await Worker.findOneBy({
+    id: req.params.worker_Id
+  });
+
+  if (!worker)
+    return res
+      .status(404)
+      .json({ message: 'Worker Not Found, Please Enter A Valid Worker' });
+
+  return res.json(worker);
+});
+
 // Edit Selected Owner Data
 router.post('/api/edit_worker/:worker_Id', checkAuth, async (req, res) => {
   const { worker_Id } = req.params;
@@ -115,10 +129,13 @@ router.get('/api/:village_Id/get_workers', async (req, res) => {
     }
   });
 
+  console.log(villageWorkers);
+
   if (!villageWorkers)
     return res
       .status(404)
       .json({ message: 'Village Not Found, Please Enter A Valid Village' });
+
   return res.json(villageWorkers);
 });
 
@@ -140,7 +157,7 @@ router.get('/api/:village_Id/get_workers_with_permission', async (req, res) => {
 
   const filterWorkers = () => {
     const workerArray = villageWorkers.workers.filter(function (worker) {
-      return (worker.has_permission = true);
+      return worker.has_permission === true;
     });
     return workerArray;
   };

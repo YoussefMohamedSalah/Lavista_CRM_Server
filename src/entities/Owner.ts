@@ -1,5 +1,12 @@
 import { Person } from './utils/Person';
-import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { MaintenanceTransaction } from './maintenance/Maintenance_transaction';
 import { Village } from './village';
 

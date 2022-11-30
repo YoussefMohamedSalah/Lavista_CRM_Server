@@ -1,47 +1,62 @@
-import { Person } from "./utils/Person";
-import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
-import { Village } from "./village";
+import { Person } from './utils/Person';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+import { Village } from './village';
 
 export enum UserTypes {
-    user = "user",
-    superManager = "super_manager",
-    villageManager = "village_manager",
-    qrCodeManager = "qr_code_manager",
-    ownersManager = "owners_manager",
-    workersManager = "workers_manager",
-    gateManager = "gate_manager",
+  user = 'user',
+  superManager = 'super_manager',
+  villageManager = 'village_manager',
+  qrCodeManager = 'qr_code_manager',
+  ownersManager = 'owners_manager',
+  workersManager = 'workers_manager',
+  gateManager = 'gate_manager'
 }
 
-@Entity("user")
+@Entity('user')
 export class User extends Person {
-    @Column()
-    loggin: string;
+  @PrimaryGeneratedColumn()
+  index: number;
 
-    @Column()
-    password: string;
+  @Column()
+  loggin: string;
 
-    @Column({
-        type: "enum",
-        enum: UserTypes,
-        default: "user",
-    })
-    user_type: string;
+  @Column()
+  password: string;
 
-    @Column({
-        nullable: true,
-    })
-    manager_of: string;
+  @Column({
+    type: 'enum',
+    enum: UserTypes,
+    default: 'user'
+  })
+  user_type: string;
 
-    @Column({
-        default: "",
-        nullable: true,
-    })
-    profile_image: string;
+  @Column({
+    nullable: true
+  })
+  manager_of: string;
 
-    // relasion with Parent Village
-    @ManyToOne(() => Village, (village) => village.users, { cascade: true })
-    @JoinColumn({
-        name: "village_Id",
-    })
-    village: Village;
+  @Column({
+    default: '',
+    nullable: true
+  })
+  profile_image: string;
+
+  @Column({
+    nullable: false,
+    default: '5f73cf37-42e3-454e-80f0-bfd08febc994'
+  })
+  villageId: string;
+
+  // relasion with Parent Village
+  @ManyToOne(() => Village, (village) => village.users, { cascade: true })
+  @JoinColumn({
+    name: 'village_Id'
+  })
+  village: Village;
 }

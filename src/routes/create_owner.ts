@@ -59,7 +59,7 @@ router.post('/api/edit_owner/:owner_Id', checkAuth, async (req, res) => {
   } = req.body;
 
   const owner = await Owner.findOneBy({
-    id: req.params.owner_Id
+    id: owner_Id
   });
 
   if (!owner) {
@@ -88,7 +88,6 @@ router.post('/api/edit_owner/:owner_Id', checkAuth, async (req, res) => {
   }
 
   await owner.save();
-  console.log(owner);
   return res.json(owner);
 });
 
