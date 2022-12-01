@@ -1,55 +1,48 @@
 import {
-    Entity,
-    BaseEntity,
-    Column,
-    PrimaryGeneratedColumn,
-    ManyToOne,
-    JoinColumn,
-    OneToMany,
-} from "typeorm";
-import { Category } from "./Category";
-import { BrokenItem } from "./qr_code/broken_items_options";
-import { GenerateQrCode } from "./qr_code/generateQrCode";
+  Entity,
+  BaseEntity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  OneToMany
+} from 'typeorm';
+import { Category } from './Category';
+import { QrCodeItem } from './QrcodeItem';
+import { Village } from './village';
 
-@Entity("item")
+@Entity('item')
 export class Item extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({
-        nullable: false,
-    })
-    title: string;
+  @Column({
+    nullable: false,
+    default: ''
+  })
+  en_item_name: string;
 
-    @Column({
-        nullable: false,
-    })
-    label: string;
+  @Column({
+    nullable: false,
+    default: ''
+  })
+  ar_item_name: string;
 
-    @Column({
-        nullable: true,
-        default: true,
-    })
-    condition: boolean;
+  // relasion with Parent Village
+  @ManyToOne(() => Village, (village) => village.items)
+  @JoinColumn({
+    name: 'village_Id'
+  })
+  village: Village;
 
-    @Column({
-        type: "simple-array",
-        default: [],
-    })
-    needs: string[];
+  // relasion with Parent Category
+  @ManyToOne(() => Category, (category) => category.items)
+  @JoinColumn({
+    name: 'category_Id'
+  })
+  category: Category;
 
-    // relasion with Parent Category
-    @ManyToOne(() => Category, (category) => category.items)
-    @JoinColumn({
-        name: "category_Id",
-    })
-    category: Category;
-
-    // relasion with cild Broken Items List
-    @OneToMany(() => BrokenItem, (brokenItem) => brokenItem.item_id)
-    brokenItems: BrokenItem[];
-
-    // relasion with cild Qrcode List
-    @OneToMany(() => GenerateQrCode, (generateQrCode) => generateQrCode.item_id)
-    qrCodeList: GenerateQrCode[];
+  // relasion with cild Broken Items QrCodeItem
+  @OneToMany(() => QrCodeItem, (qrCodeItem) => qrCodeItem.item , {cascade: true })
+  qrCodeItem: QrCodeItem[];
 }

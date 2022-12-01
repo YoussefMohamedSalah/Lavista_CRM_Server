@@ -4,39 +4,51 @@ import { createQueryBuilder } from 'typeorm';
 import { checkAuth } from '../../middleware/checkAuth';
 import { Category } from '../entities/Category';
 import { Village } from '../entities/village';
+import { QrCodeItem } from '../entities/QrcodeItem';
 const router = express.Router();
 
-router.post('/api/:village_Id/:category_Id/create_item', async (req, res) => {
-  const { en_item_name, ar_item_name } = req.body;
-  const { village_Id } = req.params;
-  const { category_Id } = req.params;
+router.post(
+  '/api/:village_Id/:category_Id/:item_Id/create_qrcode',
+  async (req, res) => {
+    const { serial, image } = req.body;
+    const { village_Id } = req.params;
+    const { category_Id } = req.params;
+    const { item_Id } = req.params;
 
-  const village = await Village.findOne({
-    where: { id: village_Id }
-  });
-  if (!village)
-    return res
-      .status(404)
-      .json({ message: 'Village Not Found, Please Enter A Valid village' });
+    const village = await Village.findOne({
+      where: { id: village_Id }
+    });
+    if (!village)
+      return res
+        .status(404)
+        .json({ message: 'Village Not Found, Please Enter A Valid village' });
 
-  const category = await Category.findOne({
-    where: { id: Number(category_Id) }
-  });
-  if (!category)
-    return res
-      .status(404)
-      .json({ message: 'Category Not Found, Please Enter A Valid category' });
+    const category = await Category.findOne({
+      where: { id: Number(category_Id) }
+    });
+    if (!category)
+      return res
+        .status(404)
+        .json({ message: 'Category Not Found, Please Enter A Valid category' });
 
-  const item = Item.create({
-    en_item_name,
-    ar_item_name,
-    village,
-    category
-  });
+    const item = await Item.findOne({
+      where: { id: item_Id }
+    });
+    if (!item)
+      return res
+        .status(404)
+        .json({ message: 'Item Not Found, Please Enter A Valid item' });
 
-  await item.save();
-  return res.json(item);
-});
+    const qrcodeItem = QrCodeItem.create({
+      serial,
+      image,
+      item
+    });
+
+    await qrcodeItem.save();
+    return res.json(qrcodeItem);
+  }
+);
 
 // Get All Items in One Category After Checking If Village Valid
 router.get(
@@ -82,4 +94,4 @@ router.get(
 //   return res.json(item);
 // });
 
-export { router as createItemRouter };
+export { router as create_qrcode };

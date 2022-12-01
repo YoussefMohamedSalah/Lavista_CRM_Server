@@ -20,13 +20,14 @@ import { createUserRouter } from './routes/create_user';
 import { createWorkerRouter } from './routes/create_worker';
 // auth
 import { authRouter } from './routes/auth/auth';
-import { protectedRouter } from './routes/protected';
-import { BrokenItem } from './entities/qr_code/broken_items_options';
-import { createBrokenItemRouter } from './routes/create_broken_item';
+// import { protectedRouter } from './routes/protected';
+import { BrokenItem } from './entities/BrokenItem';
+// import { createBrokenItemRouter } from './routes/create_broken_item';
 import { MaintenanceTransaction } from './entities/maintenance/Maintenance_transaction';
 import { createMaintenanceTransactionRouter } from './routes/maintenance/create_Maintenance_Transaction';
-import { GenerateQrCode } from './entities/qr_code/generateQrCode';
 import { createImageUploadRouter } from './routes/uploadFile/uploadImage';
+import { QrCodeItem } from './entities/QrcodeItem';
+import { create_qrcode } from './routes/create_qrcode';
 // constants
 dotenv.config();
 const app = express();
@@ -45,11 +46,11 @@ const main = async () => {
         // Section,
         Category,
         Item,
+        QrCodeItem,
         BrokenItem,
-        GenerateQrCode,
         // ----
-        Village,
         // workers and Users
+        Village,
         User,
         Worker,
         Owner,
@@ -66,18 +67,19 @@ const main = async () => {
     // app.use(createSectionRouter);
     app.use(createCategoryRouter);
     app.use(createItemRouter);
-    app.use(createBrokenItemRouter);
+    // app.use(createBrokenItemRouter);
     // ----
     app.use(createOwnerRouter);
     app.use(createUserRouter);
     app.use(createWorkerRouter);
     app.use(createVillageRouter);
     app.use(createImageUploadRouter);
+    app.use(create_qrcode);
     // ------
     app.use(createMaintenanceTransactionRouter);
 
     app.use('/auth', authRouter);
-    app.use(protectedRouter);
+    // app.use(protectedRouter);
 
     app.listen(8080, () => {
       console.log('Now running on port 8080');

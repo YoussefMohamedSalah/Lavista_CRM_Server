@@ -29,7 +29,7 @@ export class Owner extends Person {
   status: string;
 
   // relation with Parent Village
-  @ManyToOne(() => Village, (village) => village.owners, { cascade: true })
+  @ManyToOne(() => Village, (village) => village.owners)
   @JoinColumn({
     name: 'village_Id'
   })

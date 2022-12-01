@@ -56,7 +56,7 @@ export class Worker extends Person {
   reason_to_leave: string;
 
   // relasion with Parent Village
-  @ManyToOne(() => Village, (village) => village.workers, { cascade: true })
+  @ManyToOne(() => Village, (village) => village.workers)
   @JoinColumn({
     name: 'village_Id'
   })

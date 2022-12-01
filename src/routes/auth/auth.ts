@@ -11,7 +11,6 @@ import { Village } from '../../entities/village';
 const router = express.Router();
 dotenv.config();
 const secretHash = process.env.SECRET_HASH;
-
 router.post(
   '/signup/:village_Id',
   check('password', 'please provide a 7 characters or more password').isLength({
@@ -145,7 +144,6 @@ router.post(
     return res.json();
   }
 );
-
 // access token to be saved in locl storage ,,,, three Hours
 router.post('/login', async (req, res) => {
   const { loggin, password } = req.body;
