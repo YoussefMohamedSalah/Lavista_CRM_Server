@@ -39,47 +39,48 @@ router.post('/api/:village_Id/:category_Id/create_item', async (req, res) => {
 });
 
 // Get All Items in One Category After Checking If Village Valid
-router.get(
-  '/api/:village_Id/:category_Id/item',
-  checkAuth,
-  async (req, res) => {
-    const { village_Id } = req.params;
-    const { category_Id } = req.params;
+router.get('/api/:village_Id/get_items', async (req, res) => {
+  const { village_Id } = req.params;
 
-    const village = await Village.findOne({ where: { id: village_Id } });
-    if (!village)
-      return res
-        .status(404)
-        .json({ message: 'Village Not Found, Please Enter A Valid Village' });
+  const village = await Village.findOne({ where: { id: village_Id } });
+  if (!village)
+    return res
+      .status(404)
+      .json({ message: 'Village Not Found, Please Enter A Valid Village' });
 
-    const category = await Category.findOne({
-      where: { id: Number(category_Id) }
-    });
-    if (!category)
-      return res
-        .status(404)
-        .json({ message: 'Category Not Found, Please Enter A Valid category' });
+  const villageItems = await createQueryBuilder('category')
+    .select('category')
+    .from(Category, 'category')
+    .leftJoinAndSelect('category.items', 'items')
+    .getMany();
 
-    const villageItems = await createQueryBuilder('category')
-      .select('category')
-      .from(Category, 'category')
-      .where('category.id = :category_Id', { category_Id })
-      .leftJoinAndSelect('category.items', 'items')
-      .getMany();
+  return res.json(villageItems);
+});
 
-    return res.json(villageItems);
-  }
-);
+// Get All Items in One Category After Checking If Village Valid
+// Get single category with items
+router.get('/api/:village_Id/:category_title/get_items', async (req, res) => {
+  const { category_title } = req.params;
+  const { village_Id } = req.params;
+  const village = await Village.findOne({ where: { id: village_Id } });
+  if (!village)
+    return res
+      .status(404)
+      .json({ message: 'Village Not Found, Please Enter A Valid Village' });
 
-// // Get All Items With Qr Code List
-// router.get('/api/all_items/qrcode_list', checkAuth, async (req, res) => {
-//   const item = await createQueryBuilder('item')
-//     .select('item')
-//     .from(Item, 'item')
-//     .leftJoinAndSelect('item.qrCodeList', 'qrCodeList')
-//     .getMany();
+  const categoryItems = await createQueryBuilder('category')
+    .select('category')
+    .from(Category, 'category')
+    .where('category.title = :category_title', { category_title })
+    .leftJoinAndSelect('category.items', 'items')
+    .getOne();
 
-//   return res.json(item);
-// });
+  if (!categoryItems)
+    return res
+      .status(404)
+      .json({ message: 'Category Not Found, Please Enter A Valid Category' });
+
+  return res.json(categoryItems);
+});
 
 export { router as createItemRouter };

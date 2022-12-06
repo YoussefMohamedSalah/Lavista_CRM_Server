@@ -108,7 +108,6 @@ router.post('/api/edit_worker/:worker_Id', checkAuth, async (req, res) => {
   }
 
   await worker.save();
-  console.log(worker);
   return res.json(worker);
 });
 
@@ -129,7 +128,6 @@ router.get('/api/:village_Id/get_workers', async (req, res) => {
     }
   });
 
-  console.log(villageWorkers);
 
   if (!villageWorkers)
     return res

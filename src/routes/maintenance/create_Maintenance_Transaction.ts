@@ -20,7 +20,6 @@ router.post(
             id: req.params.ownerId,
         });
 
-        console.log(owner);
         if (!owner) {
             return res.json({
                 msg: "client not found",

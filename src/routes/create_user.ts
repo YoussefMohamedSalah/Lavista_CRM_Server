@@ -49,7 +49,6 @@ router.get('/api/get_user/:user_Id', checkAuth, async (req, res) => {
   const user = await User.findOneBy({
     id: req.params.user_Id
   });
-  console.log(user);
   return res.json(user);
 });
 

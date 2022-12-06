@@ -28,24 +28,16 @@ export class Category extends BaseEntity {
 
   @Column({
     nullable: false,
-    default: 0
   })
   items_count: number;
 
   @Column({
     nullable: false,
-    default: 0
-  })
-  good_items_count: number;
-
-  @Column({
-    nullable: false,
-    default: 0
   })
   under_repair_items_count: number;
 
   // relasion with cild Item
-  @OneToMany(() => Item, (item) => item.category, {cascade: true })
+  @OneToMany(() => Item, (item) => item.category, { cascade: true })
   items: Item[];
 
   // relasion with Parent Village

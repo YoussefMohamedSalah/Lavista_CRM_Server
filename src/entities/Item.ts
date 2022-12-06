@@ -13,18 +13,16 @@ import { Village } from './village';
 
 @Entity('item')
 export class Item extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({
-    nullable: false,
-    default: ''
+    nullable: false
   })
   en_item_name: string;
 
   @Column({
-    nullable: false,
-    default: ''
+    nullable: false
   })
   ar_item_name: string;
 
@@ -38,11 +36,13 @@ export class Item extends BaseEntity {
   // relasion with Parent Category
   @ManyToOne(() => Category, (category) => category.items)
   @JoinColumn({
-    name: 'category_Id'
+    name: 'category_title'
   })
   category: Category;
 
   // relasion with cild Broken Items QrCodeItem
-  @OneToMany(() => QrCodeItem, (qrCodeItem) => qrCodeItem.item , {cascade: true })
-  qrCodeItem: QrCodeItem[];
+  @OneToMany(() => QrCodeItem, (qrCodeItem) => qrCodeItem.item, {
+    cascade: true
+  })
+  qrCodeItems: QrCodeItem[];
 }

@@ -39,10 +39,11 @@ router.get('/api/:village_Id/get_categories', async (req, res) => {
   const villageItems = await Village.findOne({
     where: { id: village_Id },
     relations: {
-      categories: true,
-      items: true
+      categories: true
     }
   });
+
+  // const allData = villageItems?.leftJoinAndSelect()
   // i can use this too in some cases
 
   // const villageItems = await Village.getRepository()
@@ -55,18 +56,5 @@ router.get('/api/:village_Id/get_categories', async (req, res) => {
   return res.json(villageItems);
 });
 
-// Get single category with items
-router.get('/api/:category_title/items', checkAuth, async (req, res) => {
-  const { category_title } = req.params;
-
-  const category = await createQueryBuilder('category')
-    .select('category')
-    .from(Category, 'category')
-    .where('category.title = :category_title', { category_title })
-    .leftJoinAndSelect('category.items', 'items')
-    .getMany();
-
-  return res.json(category);
-});
 
 export { router as createCategoryRouter };

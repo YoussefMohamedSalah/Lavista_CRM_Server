@@ -8,6 +8,7 @@ import {
 import { Category } from './Category';
 import { Item } from './Item';
 import { Owner } from './Owner';
+import { QrCodeItem } from './QrcodeItem';
 import { User } from './User';
 import { Worker } from './Worker';
 
@@ -40,4 +41,10 @@ export class Village extends BaseEntity {
   // relasion with cild Item
   @OneToMany(() => Item, (item) => item.village, { cascade: true })
   items: Item[];
+
+  // // relasion with cild Qrcode Items
+  // @OneToMany(() => QrCodeItem, (qrCodeItem) => qrCodeItem.village, {
+  //   cascade: true
+  // })
+  // qrCodeItems: QrCodeItem[];
 }

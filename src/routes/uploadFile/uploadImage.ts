@@ -1,7 +1,7 @@
-import express from "express";
-import { checkAuth } from "../../../middleware/checkAuth";
-import multer from "multer";
-import { User } from "../../entities/User";
+import express from 'express';
+import { checkAuth } from '../../../middleware/checkAuth';
+import multer from 'multer';
+import { User } from '../../entities/User';
 // ----------------------------
 
 const router = express.Router();
@@ -35,51 +35,47 @@ const router = express.Router();
 // const upload = multer({ storage: storage });
 
 const upload = multer({
-    dest: "../../../Images",
-    preservePath: true,
+  dest: '../../../Images',
+  preservePath: true
 });
 
 router.post(
-    "/api/uploadImage/:user_Id",
-    upload.single("image"),
-    async (req, res) => {
-        const { user_Id } = req.params;
+  '/api/uploadImage/:user_Id',
+  upload.single('image'),
+  async (req, res) => {
+    const { user_Id } = req.params;
 
-        const user = await User.findOneBy({
-            id: req.params.user_Id,
-        });
+    const user = await User.findOneBy({
+      id: req.params.user_Id
+    });
 
-        if (!user) {
-            return res.json({
-                msg: "user not found",
-            });
-        } else {
-            console.log(user.first_name);
-        }
-        try {
-            console.log(req.body);
-            console.log(req.file);
-            return res.status(201).json({
-                message: "File uploaded successfully",
-            });
-        } catch (error) {
-            console.error(error);
-        }
-
-        return console.log("done");
-
-        // const image = req.file?.buffer.toString("base64");
-        // const name = req.body.fileName;
-
-        // // if(image){
-        // //     user.profile_image = image
-        // // }
-
-        // return res.status(201).json({
-        //     message: "File uploaded successfully",
-        //     imageUrl: image,
-        // });
+    if (!user) {
+      return res.json({
+        msg: 'user not found'
+      });
     }
+    try {
+      return res.status(201).json({
+        message: 'File uploaded successfully'
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    return console.log('done');
+
+    // const image = req.file?.buffer.toString("base64");
+    // const name = req.body.fileName;
+
+    // // if(image){
+    // //     user.profile_image = image
+    // // }
+
+    // return res.status(201).json({
+    //     message: "File uploaded successfully",
+    //     imageUrl: image,
+    // });
+  }
 );
 
 // const uploadThumbnailArray = [
@@ -95,8 +91,6 @@ router.post(
 //     upload.single("image"),
 //     (req, res, next) => {
 //         try {
-//             console.log(req.body);
-//             console.log(req.files);
 //             return res.status(201).json({
 //                 message: "File uploaded successfully",
 //             });

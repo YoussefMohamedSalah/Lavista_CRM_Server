@@ -68,7 +68,6 @@ router.post(
     if (worker && !userLoggin) {
       worker.permission_type = permission_type;
       worker.has_permission = true;
-      console.log(worker);
       // hassing our password
       const hashedPassword = await bcrypt.hash(password, 10);
       // create JWT
@@ -93,7 +92,7 @@ router.post(
         villageId: village_Id,
         village
       });
-      console.log('permission added to a worker');
+      // console.log('permission added to a worker');
       await userData.save();
       return res.json({
         access: token,
@@ -127,9 +126,8 @@ router.post(
         villageId: village_Id,
         village
       });
-      console.log('village manager added');
+      // console.log('village manager added');
       await userData.save();
-      console.log('done');
       return res.json({
         access: token,
         id: userData.id,
