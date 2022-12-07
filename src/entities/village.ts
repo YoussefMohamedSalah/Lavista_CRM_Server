@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Category } from './Category';
 import { Item } from './Item';
+import { MaintenanceTransaction } from './maintenance/Maintenance_transaction';
 import { Owner } from './Owner';
 import { QrCodeItem } from './QrcodeItem';
 import { User } from './User';
@@ -41,6 +42,14 @@ export class Village extends BaseEntity {
   // relasion with cild Item
   @OneToMany(() => Item, (item) => item.village, { cascade: true })
   items: Item[];
+
+  // relasion with cild Transactions
+  @OneToMany(
+    () => MaintenanceTransaction,
+    (maintenanceTransaction) => maintenanceTransaction.village,
+    { cascade: true }
+  )
+  maintenanceTransactions: MaintenanceTransaction[];
 
   // // relasion with cild Qrcode Items
   // @OneToMany(() => QrCodeItem, (qrCodeItem) => qrCodeItem.village, {

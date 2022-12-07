@@ -4,9 +4,11 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  OneToMany
 } from 'typeorm';
 import { Village } from './village';
+import { MaintenanceTransaction } from './maintenance/Maintenance_transaction';
 
 @Entity('worker')
 export class Worker extends Person {
@@ -15,9 +17,6 @@ export class Worker extends Person {
     length: 14
   })
   id_number: string;
-
-  @PrimaryGeneratedColumn()
-  index: number;
 
   @Column({
     nullable: false
@@ -61,4 +60,11 @@ export class Worker extends Person {
     name: 'village_Id'
   })
   village: Village;
+
+  // relasion with cild Transactions
+  @OneToMany(
+    () => MaintenanceTransaction,
+    (maintenanceTransaction) => maintenanceTransaction.worker
+  )
+  maintenanceTransactions: MaintenanceTransaction[];
 }

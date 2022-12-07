@@ -21,7 +21,8 @@ router.post('/api/:village_Id/create_category', async (req, res) => {
   const category = Category.create({
     title,
     shortcut,
-    village
+    village,
+    village_id: village?.id
   });
 
   await category.save();
@@ -56,5 +57,31 @@ router.get('/api/:village_Id/get_categories', async (req, res) => {
   return res.json(villageItems);
 });
 
+router.get('/api/:village_Id/get_categories/items', async (req, res) => {
+  const { village_Id } = req.params;
+  const village = await Village.findOne({ where: { id: village_Id } });
+  if (!village)
+    return res
+      .status(404)
+      .json({ message: 'Village Not Found, Please Enter A Valid Village' });
+
+  const categoriesItems = await Category.find({
+    relations: {
+      items: true
+    }
+  });
+
+  // const allData = villageItems?.leftJoinAndSelect()
+  // i can use this too in some cases
+
+  // const villageItems = await Village.getRepository()
+  //   .createQueryBuilder('village') // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+  //   .where(`village.id = ${village_Id}`)
+  //   .innerJoinAndSelect('village.categories', 'categories')
+  //   .leftJoinAndSelect('village.items', 'items')
+  //   .getMany();
+
+  return res.json(categoriesItems);
+});
 
 export { router as createCategoryRouter };

@@ -40,5 +40,5 @@ export class Owner extends Person {
     () => MaintenanceTransaction,
     (maintenanceTransaction) => maintenanceTransaction.owner
   )
-  maintenanceTransaction: MaintenanceTransaction[];
+  maintenanceTransactions: MaintenanceTransaction[];
 }

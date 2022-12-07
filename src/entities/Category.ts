@@ -27,14 +27,17 @@ export class Category extends BaseEntity {
   shortcut: string;
 
   @Column({
-    nullable: false,
+    nullable: false
   })
   items_count: number;
 
   @Column({
-    nullable: false,
+    nullable: false
   })
   under_repair_items_count: number;
+
+  @Column()
+  village_id: string;
 
   // relasion with cild Item
   @OneToMany(() => Item, (item) => item.category, { cascade: true })

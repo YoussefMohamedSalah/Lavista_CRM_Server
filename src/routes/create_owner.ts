@@ -6,7 +6,7 @@ import { Village } from '../entities/village';
 const router = express.Router();
 
 // Create New Owner With Village_Id
-router.post('/api/:village_Id/create_owner', checkAuth, async (req, res) => {
+router.post('/api/:village_Id/create_owner', async (req, res) => {
   const {
     first_name,
     last_name,

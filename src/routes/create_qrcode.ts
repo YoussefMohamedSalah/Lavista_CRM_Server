@@ -58,7 +58,7 @@ router.post(
   }
 );
 // Get All Items in One Category After Checking If Village Valid
-router.get('/api/:village_Id/qrcode_list', checkAuth, async (req, res) => {
+router.get('/api/:village_Id/qrcode_list', async (req, res) => {
   const { village_Id } = req.params;
 
   const village = await Village.findOne({ where: { id: village_Id } });
@@ -100,20 +100,6 @@ router.get('/api/:village_Id/qrcode_list', checkAuth, async (req, res) => {
   };
 
   return res.json(responseData);
-
-  // if (!category)
-  //   return res
-  //     .status(404)
-  //     .json({ message: 'Category Not Found, Please Enter A Valid category' });
-
-  // const villageItems = await createQueryBuilder('category')
-  //   .select('category')
-  //   .from(Category, 'category')
-  //   .where('category.id = :category_Id', { category_Id })
-  //   .leftJoinAndSelect('category.items', 'items')
-  //   .getMany();
-
-  // return res.json(villageItems);
 });
 
 // // Get All Items With Qr Code List
