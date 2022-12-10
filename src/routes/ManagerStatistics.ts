@@ -26,7 +26,6 @@ router.get(
     });
 
     const allFeesArray = ownersList?.owners.map((fee) => fee.maintenance_fees);
-    console.log(allFeesArray);
 
     return res.json(allFeesArray);
   }

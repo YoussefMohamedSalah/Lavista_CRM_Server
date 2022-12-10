@@ -66,6 +66,7 @@ router.get('/api/:village_Id/get_categories/items', async (req, res) => {
       .json({ message: 'Village Not Found, Please Enter A Valid Village' });
 
   const categoriesItems = await Category.find({
+    where: { village_id: village_Id },
     relations: {
       items: true
     }
